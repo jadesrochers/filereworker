@@ -1,0 +1,23 @@
+{
+    "name": "@jadesrochers/filereworker",
+    "version": "0.1.0",
+    "license": "Apache-2.0",
+    "author": "Jared Desrochers",
+    "repository": "",
+    "description": "Get information on data files, alter them",
+    "main": "index.js",
+    "keywords": [],
+    "dependencies": {
+        "lodash": "^4.17.11",
+        "ramda": "^0.26.1",
+        "@jadesrochers/subprocess": "^0.1.0",
+        "@jadesrochers/fpstreamline": "^0.1.0"
+    },
+    "scripts": {
+        "test": "jest"
+    },
+    "devDependencies": {
+        "jest": "^24.5.0",
+        "mock-fs": "^4.8.0"
+    }
+}
