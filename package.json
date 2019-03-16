@@ -9,9 +9,15 @@
     "keywords": [],
     "dependencies": {
         "lodash": "^4.17.11",
-        "ramda": "^0.26.1",
-        "@jadesrochers/subprocess": "^0.1.0",
-        "@jadesrochers/fpstreamline": "^0.1.0"
+        "ramda": "^0.26.1"
+    },
+    "dependenciesComment": {
+        "toadd1": "@jadesrochers/subprocess: ^0.1.0",
+        "toadd2": "@jadesrochers/fpstreamline: ^0.1.0"
+    },
+    "repository":{
+        "type":"git",
+	"url": "https://github.com/jadesrochers/filereworker.git"
     },
     "scripts": {
         "test": "jest"
