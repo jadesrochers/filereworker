@@ -84,12 +84,12 @@ const splitFileLineComm = R.pipe(
 
 // Takes a file name and puts together command to split file
 const splitFileBySize = fps.pipeAsync(
-  fps.appendUseNth(1)(getFileSplitSize),
+  fps.appendUseNth(0)(getFileSplitSize),
   fps.runAll(splitFileSizeComm),
 )
 
 const splitFileByLines = fps.pipeAsync(
-  fps.appendUseNth(1)(getFileSplitLines),
+  fps.appendUseNth(0)(getFileSplitLines),
   splitFileLineComm,
 )
 
