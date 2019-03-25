@@ -1,37 +1,8 @@
 jest.mock('@jadesrochers/subprocess')
+jest.mock('./filehelpers')
 
-const mockfs = require('mock-fs')
-const fh = require('./filehelpers')
 const subp = require('@jadesrochers/subprocess');
-
-randRows = (rows) => {
-  var str = ''
-  for(var i = 0; i < rows; i++){
-    str = str.concat(Math.random() + '\n')
-  }
-  return str
-}
-
-mockfs({
-  '/fake/path/dir': {
-    'fakefile1.txt': 'Fake file 1 contents',
-    'fakefile2.txt': 'Another fake file',
-    'fakefile3.txt': 'The last fake file in this location',
-  },
-  '/not/a/real': {
-    'file.csv': randRows(30000) 
-  },
-  '/fake/splits': {
-    'notsplit.txt': '',
-    'fake_Split_01': 'split1',
-    'fake_Split_02': 'split2',
-    'fake_Split_05': 'split5',
-    'fake_Split_23': 'split23',
-    'otherfile.csv': '',
-    'source.json': '',
-  }
-   
-})
+const fh = require('./filehelpers')
 
 test('Get file name', () => {
   expect(fh.getFileName('/home/jad/dev/javascript/react/geoJsonProcess.js')).toBe('geoJsonProcess.js')
@@ -64,7 +35,7 @@ test('Insert file heading command', () => {
 
 test('File size in Mb', async () => {
   expect.assertions(1)
-  await expect(fh.getFileSizeMb('/not/a/real/file.csv')).resolves.toBe(1)
+  await expect(fh.getFileSizeMb('/not/a/real/file.csv')).resolves.toBe(2)
 })
 
 test('Get number of file lines', async () => {
@@ -92,6 +63,6 @@ test('Insert Headings command integration', async () => {
   expect(subp.shellCommand).toHaveBeenCalledTimes(3)
   await fh.insertHeadings('/fake/splits/otherfile.csv')
   expect(subp.shellCommand).toHaveBeenCalledTimes(6)
-  mockfs.restore()
+  fh.mockfs.restore()
 })
 

@@ -67,7 +67,6 @@ const splitFileSizeComm = F.curry((file, size) => R.pipe(
     fps.concat(` split -C ${size}m --numeric-suffixes `),
     fps.concat(fh.nameAndBody(file)),
     fps.concat('_Split_'),
-    /* shellCommand, */
   )(file)
 )
 
@@ -79,7 +78,6 @@ const splitFileLineComm = R.pipe(
     R.adjust(2)(fh.nameAndBody),
     R.append('_Split_'),
     F.join(''),
-    /* shellCommand, */
 )
 
 // Takes a file name and puts together command to split file

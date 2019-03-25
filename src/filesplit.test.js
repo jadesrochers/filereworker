@@ -30,24 +30,25 @@ test('Split file by lines command', () => {
 
 test('Check file split Size', async () => {
   expect.assertions(1)
-  await expect(fsplit.getFileSplitSize('fake.txt')).resolves.toBe(18)
+  await expect(fsplit.getFileSplitSize('/not/a/real/file.csv')).resolves.toBe(1)
 })
 
 test('Check file split Lines', async () => {
   expect.assertions(1)
-  await expect(fsplit.getFileSplitLines('fake.txt')).resolves.toBe(34718)
+  await expect(fsplit.getFileSplitLines('/not/a/real/file.csv')).resolves.toBe(2579)
 })
 
 jest.mock('@jadesrochers/subprocess')
 test('Test file size splitter, integrates size commands', async () => {
   expect.assertions(1)
-  await fsplit.splitBySize('/path/to/fake.txt')
-  expect(subp.shellCommand).toHaveBeenCalledWith('cd /path/to/ &&  split -C 9m --numeric-suffixes fake.txt fake_Split_')
+  await fsplit.splitBySize('/not/a/real/file.csv')
+  expect(subp.shellCommand).toHaveBeenCalledWith('cd /not/a/real/ &&  split -C 1m --numeric-suffixes file.csv file_Split_')
 })
 
 test('Test file line splitter; integrates line commands', async () => {
   expect.assertions(1)
-  await fsplit.splitByLines('/path/to/fake.txt')
-  expect(subp.shellCommand).toHaveBeenCalledWith('cd /path/to/ &&  split --lines=13845 --numeric-suffixes fake.txt fake_Split_')
+  await fsplit.splitByLines('/not/a/real/file.csv')
+  expect(subp.shellCommand).toHaveBeenCalledWith('cd /not/a/real/ &&  split --lines=1 --numeric-suffixes file.csv file_Split_')
+  fh.mockfs.restore()
 })
 
