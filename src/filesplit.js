@@ -9,9 +9,6 @@ const R = require('ramda')
 const subp = require('@jadesrochers/subprocess');
 
 
-var testfile = '/home/jad/dev/javascript/react/datatodb/County_Zillow_Data/County_Zillow_timeseries.csv'
-var testdir = '/home/jad/dev/javascript/react/datatodb/County_Zillow_Data'
-
 // resets value to 1 if less than 1
 const oneMinimum = input => {
    if(input < 1){
