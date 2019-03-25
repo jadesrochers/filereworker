@@ -3,19 +3,18 @@
     "version": "0.1.0",
     "license": "Apache-2.0",
     "author": "Jared Desrochers",
-    "repository": "",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jadesrochers/filereworker.git"
+    },
     "description": "Get information on data files, split and preserve headings",
     "main": "index.js",
     "keywords": [],
     "dependencies": {
         "lodash": "^4.17.11",
         "ramda": "^0.26.1",
-	"@jadesrochers/subprocess": "^0.1.0",
-	"@jadesrochers/fpstreamline": "^0.1.0"
-    },
-    "repository":{
-        "type":"git",
-	"url": "https://github.com/jadesrochers/filereworker.git"
+        "@jadesrochers/subprocess": "^0.1.0",
+        "@jadesrochers/fpstreamline": "^0.1.0"
     },
     "scripts": {
         "test": "jest"
