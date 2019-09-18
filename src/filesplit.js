@@ -38,12 +38,12 @@ const coresMinus = R.pipe(
   )
 
 const getSplitSize = R.pipe(
-  fps.append(coresMinus(3)),
+  fps.append(coresMinus(1)),
   fps.runAll(calculateSize),
 )
 
 const getSplitLines = R.pipe(
-  fps.append(coresMinus(3)),
+  fps.append(coresMinus(1)),
   fps.runAll(calculateLines),
 )
 
@@ -78,24 +78,46 @@ const splitFileLineComm = R.pipe(
 )
 
 // Takes a file name and puts together command to split file
-const splitFileBySize = fps.pipeAsync(
-  fps.appendUseNth(0)(getFileSplitSize),
+const splitFileBySize = splitsize => fps.pipeAsync(
+  R.append(splitsize),
   fps.runAll(splitFileSizeComm),
 )
 
-const splitFileByLines = fps.pipeAsync(
-  fps.appendUseNth(0)(getFileSplitLines),
+const splitFileByLines = splitlines => fps.pipeAsync(
+  R.append(splitlines),
   splitFileLineComm,
 )
 
-const splitBySize = async (file) => {
-  var comm = await splitFileBySize(file)
+const splitBySize = R.curry(async (file,sizemb) => {
+  let comm = await splitFileSizeComm(file)(sizemb)
   await subp.shellCommand(comm)
+})
+
+const splitByLines = R.curry(async (file,lines) => {
+  let comm = await splitFileLineComm([file, lines])
+  await subp.shellCommand(comm)
+})
+
+const splitByCoresS = async (file) => {
+  let size = await getFileSplitSize(file)
+  await splitBySize(file)(size)
 }
 
-const splitByLines = async (file) => {
-  var comm = await splitFileByLines(file)
-  await subp.shellCommand(comm)
+const splitByCoresL = async (file) => {
+  let lines = await getFileSplitLines(file)
+  await splitByLines(file, lines)
+}
+
+const splitEvenSize = async (file, pieces) => {
+  let size = await fh.getFileSizeMb(file)
+  let splitsize = calculateSize(size)(pieces)
+  await splitBySize(file)(splitsize)
+}
+
+const splitEvenLines = async (file, pieces) => {
+  let lines = await fh.getFileLines(file)
+  let splitlines = calculateLines(lines)(pieces)
+  await splitByLines(file, splitlines)
 }
 
 
@@ -103,6 +125,11 @@ exports.getFileSplitSize = getFileSplitSize
 exports.getFileSplitLines = getFileSplitLines
 exports.splitBySize = splitBySize
 exports.splitByLines = splitByLines
+exports.splitByCoresS = splitByCoresS
+exports.splitByCoresL = splitByCoresL
+exports.splitEvenSize = splitEvenSize
+exports.splitEvenLines = splitEvenLines
+
 exports.splitFileSizeComm = splitFileSizeComm
 exports.splitFileLineComm = splitFileLineComm
 exports.oneMinimum = oneMinimum

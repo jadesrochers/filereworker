@@ -35,20 +35,46 @@ test('Check file split Size', async () => {
 
 test('Check file split Lines', async () => {
   expect.assertions(1)
-  await expect(fsplit.getFileSplitLines('/not/a/real/file.csv')).resolves.toBe(2579)
+  await expect(fsplit.getFileSplitLines('/not/a/real/file.csv')).resolves.toBe(2110)
 })
 
 jest.mock('@jadesrochers/subprocess')
 test('Test file size splitter, integrates size commands', async () => {
   expect.assertions(1)
-  await fsplit.splitBySize('/not/a/real/file.csv')
-  expect(subp.shellCommand).toHaveBeenCalledWith('cd /not/a/real/ &&  split -C 1m --numeric-suffixes file.csv file_Split_')
+  await fsplit.splitBySize('/not/a/real/file.csv')(12)
+  expect(subp.shellCommand).toHaveBeenCalledWith('cd /not/a/real/ &&  split -C 12m --numeric-suffixes file.csv file_Split_')
 })
 
 test('Test file line splitter; integrates line commands', async () => {
   expect.assertions(1)
-  await fsplit.splitByLines('/not/a/real/file.csv')
-  expect(subp.shellCommand).toHaveBeenCalledWith('cd /not/a/real/ &&  split --lines=1 --numeric-suffixes file.csv file_Split_')
+  await fsplit.splitByLines('/not/a/real/file.csv', 3000)
+  expect(subp.shellCommand).toHaveBeenCalledWith('cd /not/a/real/ &&  split --lines=3000 --numeric-suffixes file.csv file_Split_')
+})
+
+test('Test file core size splitter', async () => {
+  expect.assertions(1)
+  await fsplit.splitByCoresS('/not/a/real/file.csv')
+  expect(subp.shellCommand).toHaveBeenLastCalledWith('cd /not/a/real/ &&  split -C 1m --numeric-suffixes file.csv file_Split_')
+})
+
+test('Test file core line splitter', async () => {
+  expect.assertions(1)
+  await fsplit.splitByCoresL('/not/a/real/file.csv')
+  expect(subp.shellCommand).toHaveBeenLastCalledWith('cd /not/a/real/ &&  split --lines=1 --numeric-suffixes file.csv file_Split_')
+})
+
+test('Test even size splitter', async () => {
+  expect.assertions(1)
+  await fsplit.splitEvenSize('/not/a/real/file.csv', 10)
+  expect(subp.shellCommand).toHaveBeenLastCalledWith('cd /not/a/real/ &&  split -C 1m --numeric-suffixes file.csv file_Split_')
+})
+
+test('Test even line splitter', async () => {
+  expect.assertions(1)
+  await fsplit.splitEvenLines('/not/a/real/file.csv', 10)
+  expect(subp.shellCommand).toHaveBeenLastCalledWith('cd /not/a/real/ &&  split --lines=1 --numeric-suffixes file.csv file_Split_')
   fh.mockfs.restore()
 })
+
+
 
