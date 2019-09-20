@@ -38,7 +38,7 @@ For these functions you don't need to provide a size or lines argument, just an 
 #### Split into even size/line piece specifying just the number
 Specify the number of files, and based on either lines or size
 will try and make that exact number as even as possible.
-```
+```javascript
 fsplit.splitEvenSize('/not/a/real/file.csv')
 fsplit.splitEvenLines('/not/a/real/file.csv')
 ```
