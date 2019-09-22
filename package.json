@@ -11,7 +11,7 @@
     "main": "index.js",
     "keywords": [],
     "dependencies": {
-        "@jadesrochers/fpstreamline": "^0.1.0",
+        "@jadesrochers/fpstreamline": "^0.1.3",
         "@jadesrochers/subprocess": "^0.1.0",
         "lodash": "^4.17.15",
         "ramda": "^0.26.1"
