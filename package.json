@@ -17,7 +17,11 @@
         "ramda": "^0.26.1"
     },
     "scripts": {
-        "test": "jest"
+        "test": "jest",
+        "packagePatch": "npm run test && npm version patch && npm publish && git push -u origin master",
+        "updatePatch": "npm update && npm run test && npm version patch && npm publish && git push -u origin master",
+        "packageMinor": "npm run test && npm version patch && npm publish && git push -u origin master",
+        "CommitandPackage": "./CommitandPackage.sh"
     },
     "devDependencies": {
         "eslint": "^6.4.0",
